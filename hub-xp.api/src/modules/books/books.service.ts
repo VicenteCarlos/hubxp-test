@@ -134,7 +134,6 @@ export class BookService {
       data: transformedBooks.map((book) => ({
         ...book,
         avgRating: book.avaliation,
-        reviewCount: 1,
       })),
     };
   }
