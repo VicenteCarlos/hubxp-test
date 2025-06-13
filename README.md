@@ -60,6 +60,8 @@ npm install
 # Crie o arquivo .env
 cp .env.example .env
 
+# Configure o usuário e senha do banco em migrate-mongo-config
+
 # Conexão com o banco
 npx migrate-mongo up
 
