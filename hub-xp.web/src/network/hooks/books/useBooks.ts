@@ -58,18 +58,11 @@ export function useCreateBook() {
   const queryClient = useQueryClient();
 
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: async (data: Omit<Book, "id" | "created_at" | "updated_at">): Promise<BookResponse> => 
-      await createBook(data),
+    mutationFn: async (
+      data: Omit<Book, "id" | "created_at" | "updated_at">
+    ): Promise<BookResponse> => await createBook(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["books"] });
-      toast.success("Livro criado com sucesso!");
-    },
-    onError: (error) => {
-      if (error instanceof AxiosError) {
-        toast.error(error.response?.data.message || "Erro ao criar livro");
-      } else {
-        toast.error("Erro ao criar livro");
-      }
     },
   });
 
@@ -83,19 +76,12 @@ export function useUpdateBook() {
     mutationFn: async ({
       id,
       ...data
-    }: { id: string } & Partial<Omit<Book, "id" | "created_at" | "updated_at">>) =>
-      await updateBook(id, data),
+    }: { id: string } & Partial<
+      Omit<Book, "id" | "created_at" | "updated_at">
+    >) => await updateBook(id, data),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ["books"] });
       queryClient.invalidateQueries({ queryKey: ["book", variables.id] });
-      toast.success("Livro atualizado com sucesso!");
-    },
-    onError: (error) => {
-      if (error instanceof AxiosError) {
-        toast.error(error.response?.data.message || "Erro ao atualizar livro");
-      } else {
-        toast.error("Erro ao atualizar livro");
-      }
     },
   });
 }
@@ -119,14 +105,13 @@ export function useDeleteBook() {
   });
 }
 
-export function useBestRatedBooks(params?: {
-  page?: number;
-  limit?: number;
-}) {
+export function useBestRatedBooks(params?: { page?: number; limit?: number }) {
   const query = useQuery<BooksResponse>({
     queryKey: ["best-rated-books", params],
     queryFn: async () => {
-      const response = await api.get<BooksResponse>('/books/reviews', { params });
+      const response = await api.get<BooksResponse>("/books/reviews", {
+        params,
+      });
       return response.data;
     },
   });

@@ -63,14 +63,7 @@ export default function Home() {
 
   const { mutateAsync: deleteBook } = useDeleteBook();
 
-  const handleDeleteBook = async (book: Book) => {
-    try {
-      await deleteBook(book.id);
-      toast.success("Livro excluído com sucesso!");
-    } catch (error) {
-      toast.error("Erro ao excluir o livro");
-    }
-  };
+  const handleDeleteBook = async (book: Book) => await deleteBook(book.id);
 
   const data = state.showTopRated ? bestRatedData : normalData;
   const isLoading = state.showTopRated ? isLoadingBestRated : isLoadingNormal;
